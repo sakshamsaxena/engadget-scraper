@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Get a reader stream of file
-	jobSource, openErr := os.OpenFile("endg-urls-test", os.O_RDONLY, 0444)
+	jobSource, openErr := os.OpenFile("static/endg-urls-test", os.O_RDONLY, 0444)
 	if openErr != nil {
 		panic(openErr)
 	}

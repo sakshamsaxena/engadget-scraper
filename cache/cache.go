@@ -21,7 +21,7 @@ type cache struct {
 }
 
 func Initialize() {
-	ww, err := os.OpenFile("words.txt", os.O_RDONLY, 0444)
+	ww, err := os.OpenFile("static/words.txt", os.O_RDONLY, 0444)
 	if err != nil {
 		panic(err)
 	}
