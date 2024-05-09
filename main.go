@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"github.com/sakshamsaxena/engadget-scraper/cache"
 	"os"
 
-	"github.com/sakshamsaxena/engadget-scraper/manager"
+	"github.com/sakshamsaxena/engadget-scraper/workers"
 )
 
 func main() {
@@ -13,12 +15,15 @@ func main() {
 		panic(openErr)
 	}
 
+	// Initiate cache
+	cache.Initialize()
+
 	// Start the workers with this stream
-	workManager := manager.New(jobSource)
+	manager := workers.NewManager(jobSource)
 
 	// Wait for the stream to get over
-	<-workManager.PollForWork()
+	<-manager.PollForWork()
 
-	// Dump answer from Redis
-	// TODO
+	// Dump answer to STDOUT
+	fmt.Println(manager.Results())
 }
