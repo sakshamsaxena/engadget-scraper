@@ -1,19 +1,24 @@
 package main
 
 import (
-	"github.com/sakshamsaxena/engadget-scraper/worker"
 	"os"
+
+	"github.com/sakshamsaxena/engadget-scraper/manager"
 )
 
 func main() {
 	// Get a reader stream of file
-	f, e := os.OpenFile("endg-urls-test", os.O_RDONLY, 0444)
-	if e != nil {
-		panic(e)
+	jobSource, openErr := os.OpenFile("endg-urls-test", os.O_RDONLY, 0444)
+	if openErr != nil {
+		panic(openErr)
 	}
-	man := worker.NewManager(f)
-	man.Poll()
-	// Start the worker poller with this stream
+
+	// Start the workers with this stream
+	workManager := manager.New(jobSource)
+
 	// Wait for the stream to get over
+	<-workManager.PollForWork()
+
 	// Dump answer from Redis
+	// TODO
 }
