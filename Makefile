@@ -1,5 +1,7 @@
-build:
-	docker build --no-cache -t foozie .
+dev:
+	docker-compose build --no-cache scraper --build-arg mode=development
+	docker-compose up --abort-on-container-exit
 
-run:build
-	docker run foozie
+prod:
+	docker-compose build --no-cache scraper --build-arg mode=production
+	docker-compose up --abort-on-container-exit

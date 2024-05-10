@@ -1,0 +1,11 @@
+{
+  "env": "development",
+  "redis": {
+    "host": "cache",
+    "port": 6379
+  },
+  "static": {
+    "linkURLs": "static/endg-urls-test",
+    "wordBank": "static/words.txt"
+  }
+}

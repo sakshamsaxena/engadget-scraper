@@ -1,0 +1,11 @@
+{
+  "env": "production",
+  "redis": {
+    "host": "cache",
+    "port": 6379
+  },
+  "static": {
+    "linkURLs": "static/endg-urls",
+    "wordBank": "static/words.txt"
+  }
+}

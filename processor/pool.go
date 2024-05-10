@@ -1,4 +1,4 @@
-package workers
+package processor
 
 import (
 	"net/http"
@@ -73,9 +73,9 @@ func (p *pool) runJob(url string) {
 	defer p.decr()
 	defer p.wg.Done()
 	result := scrapeURL(p.client, url)
-	uncleanTokens := strings.Split(result, " ")
-	validTokens := tokenize(uncleanTokens)
-	err := cache.SetWords(validTokens)
+	allWords := strings.Split(result, " ")
+	validWords := sanitize(allWords)
+	err := cache.SetWords(validWords)
 	if err != nil {
 		panic(err) // TODO: retry
 	}

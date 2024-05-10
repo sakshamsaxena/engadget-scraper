@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/sakshamsaxena/engadget-scraper/cache"
 	"os"
 
-	"github.com/sakshamsaxena/engadget-scraper/workers"
+	"github.com/sakshamsaxena/engadget-scraper/cache"
+	"github.com/sakshamsaxena/engadget-scraper/config"
+	"github.com/sakshamsaxena/engadget-scraper/processor"
 )
 
 func main() {
 	// Get a reader stream of file
-	jobSource, openErr := os.OpenFile("static/endg-urls-test", os.O_RDONLY, 0444)
+	jobSource, openErr := os.OpenFile(config.Get("static.linkURLs").(string), os.O_RDONLY, 0444)
 	if openErr != nil {
 		panic(openErr)
 	}
@@ -18,12 +19,12 @@ func main() {
 	// Initiate cache
 	cache.Initialize()
 
-	// Start the workers with this stream
-	manager := workers.NewManager(jobSource)
+	// Start the processor with this stream
+	jobManager := processor.New(jobSource)
 
 	// Wait for the stream to get over
-	<-manager.PollForWork()
+	<-jobManager.PollForWork()
 
 	// Dump answer to STDOUT
-	fmt.Println(manager.Results())
+	fmt.Println(jobManager.Results())
 }
